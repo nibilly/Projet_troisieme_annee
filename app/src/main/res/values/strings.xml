@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">Mobility Capture</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+
+    <!-- Home -->
+    <string name="welcome_message">Welcome to Mobility Capture</string>
+    <string name="create_user">Create a new user</string>
+    <string name="start_trip">Start a trip</string>
+    <string name="history">History</string>
+
+
+    <!-- Create a new user-->
+    <string name="save">save</string>
+    <string name="cancel">Cancel</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+
+
+    <!-- Capture -->
+    <string name="capture">Capture</string>
+    <string name="stop">Stop</string>
+
+
+    <!-- Selection -->
+    <string name="selection">Selection</string>
+    <!-- Weather -->
+    <string name="weather">Weather</string>
+    <string name="weather_sun">Sun</string>
+    <string name="weather_snow">Snow</string>
+    <string name="weather_rain">Rain</string>
+    <string name="weather_cloud">Cloud</string>
+    <!-- Road Type -->
+    <string name="road_type">Road type</string>
+    <string name="road_highway">Highway</string>
+    <string name="road_department">Department</string>
+    <string name="road_national">National</string>
+    <string name="road_dirt">Dirt</string>
+    <string name="road_city">City</string>
+
+
+    <string-array name="users">
+        <item>Nicolas Billy</item>
+        <item>Cedric Salette</item>
+        <item>Pierre Le Roux</item>
+        <item>Hanna Boehm</item>
+    </string-array>
+
+</resources>
