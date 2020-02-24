@@ -1,40 +1,64 @@
 package com.example.jean_michel.projet_troisieme_annee;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
+import android.os.Message;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.github.pires.obd.commands.SpeedCommand;
-import com.github.pires.obd.commands.engine.RPMCommand;
-import com.github.pires.obd.commands.protocol.EchoOffCommand;
-import com.github.pires.obd.commands.protocol.LineFeedOffCommand;
-import com.github.pires.obd.commands.protocol.SelectProtocolCommand;
-import com.github.pires.obd.commands.protocol.TimeoutCommand;
-import com.github.pires.obd.enums.ObdProtocols;
+import org.w3c.dom.Text;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static String getDeviceAddress() {
+        return deviceAddress;
+    }
+
     private static String deviceAddress = null;
 
+    public static final String ENGINE_VALUE_CHANGED = "EngineValueChanged";
+    public static final String SPEED_VALUE_CHANGED = "SpeedValueChanged";
+
+    private static Handler handler;
+
+    private TextView textViewEngineRPM;
+    private TextView textViewSpeed;
+
+    @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        textViewEngineRPM = (TextView)findViewById(R.id.textViewEngineRPM);
+        textViewSpeed = (TextView)findViewById(R.id.textViewSpeed);
+        handler = new Handler(){
+          @Override
+          public void handleMessage(Message message){
+              String engineValue = message.getData().getString(ENGINE_VALUE_CHANGED);
+              if(engineValue != null) {
+                  textViewEngineRPM.setText(engineValue);
+              }
+              String speedValue = message.getData().getString(SPEED_VALUE_CHANGED);
+              if(speedValue != null) {
+                  textViewSpeed.setText(speedValue);
+              }
+          }
+        };
+        obd2();
+    }
 
+    private void obd2()
+    {
         ArrayList<String> deviceStrs = new ArrayList<>();
         final ArrayList<String> devices = new ArrayList<>();
 
@@ -61,54 +85,13 @@ public class MainActivity extends AppCompatActivity {
             {
                 dialog.dismiss();
                 int position = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-                String deviceAddressTemp = devices.get(position);
-                MainActivity.deviceAddress = deviceAddressTemp;
-                TextView textViewDeviceAddress = findViewById(R.id.textViewDeviceAddress);
-                textViewDeviceAddress.setText(deviceAddressTemp);
-                obd2();
+                deviceAddress = devices.get(position);
+                Thread thread = new Thread( new CaptureVehiculeData(handler));
+                thread.start();
             }
         });
 
         alertDialog.setTitle("Choose OBDII device already paired");
         alertDialog.show();
-
-    }
-
-    private void obd2()
-    {
-        // connection
-        BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
-        BluetoothDevice device = btAdapter.getRemoteDevice(deviceAddress);
-        UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-        BluetoothSocket socket = null;
-        try {
-            socket = device.createInsecureRfcommSocketToServiceRecord(uuid);
-            socket.connect();
-
-            // config
-            new EchoOffCommand().run(socket.getInputStream(), socket.getOutputStream());
-
-            new LineFeedOffCommand().run(socket.getInputStream(), socket.getOutputStream());
-
-            new TimeoutCommand(250).run(socket.getInputStream(), socket.getOutputStream());
-
-            new SelectProtocolCommand(ObdProtocols.AUTO).run(socket.getInputStream(), socket.getOutputStream());
-
-            RPMCommand engineRpmCommand = new RPMCommand();
-            SpeedCommand speedCommand = new SpeedCommand();
-            while (!Thread.currentThread().isInterrupted())
-            {
-                engineRpmCommand.run(socket.getInputStream(), socket.getOutputStream());
-                speedCommand.run(socket.getInputStream(), socket.getOutputStream());
-                // TODO handle commands result
-                Log.d("MAin", "RPM: " + engineRpmCommand.getFormattedResult());
-                Log.d("MAin", "Speed: " + speedCommand.getFormattedResult());
-                Thread.sleep(1000);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }
