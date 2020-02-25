@@ -21,10 +21,10 @@ import com.github.pires.obd.exceptions.UnableToConnectException;
 import java.io.IOException;
 import java.util.UUID;
 
-public class CaptureVehiculeData implements Runnable {
+public class CaptureVehicleData implements Runnable {
     private Handler handler;
 
-    public CaptureVehiculeData(Handler handler) {
+    public CaptureVehicleData(Handler handler) {
         this.handler = handler;
     }
 
@@ -63,14 +63,14 @@ public class CaptureVehiculeData implements Runnable {
                 String engineRpm = engineRpmCommand.getFormattedResult();
                 String speed = speedCommand.getFormattedResult();
 
-                Log.d("CaptureVehiculeData", "RPM: " + engineRpm);
+                Log.d("CaptureVehicleData", "RPM: " + engineRpm);
                 message = handler.obtainMessage();
                 messageBundle = new Bundle();
                 messageBundle.putString(Capture.ENGINE_VALUE_CHANGED, engineRpm);
                 message.setData(messageBundle);
                 handler.sendMessage(message);
 
-                Log.d("CaptureVehiculeData", "Speed: " + speed);
+                Log.d("CaptureVehicleData", "Speed: " + speed);
                 message = handler.obtainMessage();
                  messageBundle = new Bundle();
                 messageBundle.putString(Capture.SPEED_VALUE_CHANGED, speed);
@@ -91,7 +91,7 @@ public class CaptureVehiculeData implements Runnable {
         catch (com.github.pires.obd.exceptions.NoDataException e)
         {
             // end of recording
-            Log.d("CaptureVehiculeData", "End of recording");
+            Log.d("CaptureVehicleData", "End of recording");
         }
     }
 }

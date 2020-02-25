@@ -87,7 +87,7 @@
 //                dialog.dismiss();
 //                int position = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
 //                deviceAddress = devices.get(position);
-//                Thread thread = new Thread( new CaptureVehiculeData(handler));
+//                Thread thread = new Thread( new CaptureVehicleData(handler));
 //                thread.start();
 //            }
 //        });
