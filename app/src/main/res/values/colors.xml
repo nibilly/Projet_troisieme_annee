@@ -3,4 +3,8 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="michelinYellow">#FFE436</color>
+    <color name="michelinBlue">#005B90</color>
+    <color name="selectionVide">#E1E1D8</color>
+    <color name="selectionPleine">#8190D2</color>
 </resources>
