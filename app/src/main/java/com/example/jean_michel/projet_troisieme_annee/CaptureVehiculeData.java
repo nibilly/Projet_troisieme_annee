@@ -10,6 +10,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.github.pires.obd.commands.SpeedCommand;
+import com.github.pires.obd.commands.control.DistanceSinceCCCommand;
 import com.github.pires.obd.commands.engine.RPMCommand;
 import com.github.pires.obd.commands.protocol.EchoOffCommand;
 import com.github.pires.obd.commands.protocol.LineFeedOffCommand;
@@ -54,8 +55,9 @@ public class CaptureVehiculeData implements Runnable {
 
             new SelectProtocolCommand(ObdProtocols.AUTO).run(socket.getInputStream(), socket.getOutputStream());
 
-            final RPMCommand engineRpmCommand = new RPMCommand();
+            RPMCommand engineRpmCommand = new RPMCommand();
             SpeedCommand speedCommand = new SpeedCommand();
+            // DistanceSinceCCCommand
             while (!Thread.currentThread().isInterrupted())
             {
                 engineRpmCommand.run(socket.getInputStream(), socket.getOutputStream());

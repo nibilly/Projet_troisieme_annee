@@ -83,7 +83,10 @@ public class Capture extends AppCompatActivity {
 
         // Start recuperation of vehicule data
         thread = new Thread( new CaptureVehiculeData(handler));
-        thread.start();
+        // CAUTION Change delete // and delete second and third next lines if you want to try with a vehicle
+        // thread.start();
+        buttonStop.setEnabled(true);
+        progressBarConnexion.setVisibility(View.GONE);
     }
 
     public void stop(View view){
