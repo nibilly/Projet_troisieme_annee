@@ -52,7 +52,7 @@ public class Capture extends AppCompatActivity {
             obd2Selection();
         }
 
-        // MessageQueue on the handler to wait vehicle information
+        // MessageQueue on the handler to wait vehicule information
         textViewEngineRPM = (TextView)findViewById(R.id.textViewEngineRPM);
         textViewSpeed = (TextView)findViewById(R.id.textViewSpeed);
         buttonStop = (Button)findViewById(R.id.buttonStop);
@@ -81,11 +81,10 @@ public class Capture extends AppCompatActivity {
             }
         };
 
-        // Start recuperation of vehicle data
-        thread = new Thread( new CaptureVehicleData(handler));
-        // Start recuperation in comments while we develop without a vehicle.
+        // Start recuperation of vehicule data
+        thread = new Thread( new CaptureVehiculeData(handler));
+        // CAUTION Change delete // and delete second and third next lines if you want to try with a vehicle
         // thread.start();
-        // Two next lines are while we develop without vehicle.
         buttonStop.setEnabled(true);
         progressBarConnexion.setVisibility(View.GONE);
     }
