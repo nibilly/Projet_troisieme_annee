@@ -1,9 +1,5 @@
 package com.example.jean_michel.projet_troisieme_annee;
 
-import android.app.AlertDialog;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,8 +8,17 @@ import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-import java.util.Set;
+import com.example.jean_michel.projet_troisieme_annee.DAO.RecordDAO;
+import com.example.jean_michel.projet_troisieme_annee.DAO.TripDAO;
+import com.example.jean_michel.projet_troisieme_annee.DAO.UserDAO;
+import com.example.jean_michel.projet_troisieme_annee.donnee.Record;
+import com.example.jean_michel.projet_troisieme_annee.donnee.RoadType;
+import com.example.jean_michel.projet_troisieme_annee.donnee.Trip;
+import com.example.jean_michel.projet_troisieme_annee.donnee.User;
+import com.example.jean_michel.projet_troisieme_annee.donnee.Weather;
+
+import java.util.Date;
+import java.util.List;
 
 public class Home extends AppCompatActivity {
 
