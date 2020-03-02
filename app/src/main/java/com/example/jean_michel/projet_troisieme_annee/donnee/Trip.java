@@ -87,6 +87,7 @@ public class Trip {
         return records;
     }
 
+    // Create record in BDD
     public Record addRecord(Record record, Context context) {
         RecordDAO recordDAO = new RecordDAO(context);
         recordDAO.open();

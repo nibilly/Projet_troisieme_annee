@@ -56,6 +56,7 @@ public class User {
         return trips;
     }
 
+    // Create trip in BDD
     public Trip addTrip(Trip trip, Context context) {
         TripDAO tripDAO = new TripDAO(context);
         tripDAO.open();
