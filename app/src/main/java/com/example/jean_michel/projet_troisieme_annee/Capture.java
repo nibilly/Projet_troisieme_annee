@@ -143,7 +143,7 @@ public class Capture extends AppCompatActivity {
                 int position = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
                 deviceAddress = devices.get(position);
                 // Start recuperation of vehicule data
-                thread = new Thread( new CaptureVehiculeData(handler));
+                thread = new Thread( new CaptureVehicleData(handler));
                 thread.start();
             }
         });

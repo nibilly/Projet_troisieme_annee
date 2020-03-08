@@ -10,35 +10,31 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.jean_michel.projet_troisieme_annee.donnee.Record;
+import com.example.jean_michel.projet_troisieme_annee.donnee.User;
 
 import java.sql.Date;
 
-public class history extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class History extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ListView myListView;
-    private ListView myListViewRecords;
+    private ListView myListViewTrips;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+    }
 
-
+    @Override
+    public void onResume(){
+        super.onResume();
         myListView = findViewById(R.id.listView);
-        myListViewRecords = findViewById(R.id.listViewRecords);
-        listViewRecords();
         listView();
     }
 
-    public void listViewRecords(){
-        // Record record1 = new Record(1, new Date(), 25, 50, 125);
-    }
 
     public void listView() {
-        String[] prenoms = new String[]{"Cedric", "Nicolas", "Amandine", "QUENTIN"};
-
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, prenoms);
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, User.connectedUser.getTrips(this));
         myListView.setAdapter(adapter);
         myListView.setOnItemClickListener(this);
     }

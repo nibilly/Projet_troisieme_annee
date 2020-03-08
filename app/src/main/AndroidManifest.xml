@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".history"
+            android:name=".History"
             android:label="history"></activity>
         <activity
             android:name=".Home"

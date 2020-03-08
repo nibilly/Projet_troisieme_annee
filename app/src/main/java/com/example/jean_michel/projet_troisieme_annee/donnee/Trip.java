@@ -99,6 +99,11 @@ public class Trip {
         return record1;
     }
 
+    @Override
+    public String toString(){
+        return DATE_FORMAT.format(this.startedDate);
+    }
+
     public User getUser() {
         return user;
     }

@@ -2,9 +2,11 @@ package com.example.jean_michel.projet_troisieme_annee;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.jean_michel.projet_troisieme_annee.DAO.UserDAO;
 import com.example.jean_michel.projet_troisieme_annee.R;
 import com.example.jean_michel.projet_troisieme_annee.donnee.User;
 
@@ -14,18 +16,23 @@ import java.util.List;
 
 public class CreationProfil extends AppCompatActivity {
 
+    public UserDAO userDAO;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_creation_profil);
+        userDAO = new UserDAO(getApplicationContext());
 
-        List<User> listUser = new ArrayList<>();
-
-        User user = new User(1, "Billy", "Nicolas");
-        listUser.add(user);
     }
 
     public void enregistrer(View view) {
+        EditText prenom = findViewById(R.id.prenom);
+        EditText nom = findViewById(R.id.name);
+        User user = new User( nom.getText().toString(), prenom.getText().toString());
+        userDAO.open();
+        userDAO.createUser(user);
+        userDAO.close();
         this.finish();
     }
 
