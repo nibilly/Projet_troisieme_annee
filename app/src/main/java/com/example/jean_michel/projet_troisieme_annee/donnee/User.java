@@ -16,6 +16,8 @@ public class User {
 
     public static User connectedUser;
 
+    //commit
+
     // BDD Recuperation
     public User(int id, String lastName, String firstName) {
         this.id = id;
