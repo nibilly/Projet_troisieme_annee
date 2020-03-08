@@ -27,11 +27,9 @@ public class Record {
     }
 
     // New one
-    public Record(Date date, int engineRPM, int speed, int distance, Trip trip) {
+    public Record(Date date, int engineRPM, Trip trip) {
         this.date = date;
         this.engineRPM = engineRPM;
-        this.speed = speed;
-        this.distance = distance;
         this.trip = trip;
     }
 
@@ -55,11 +53,23 @@ public class Record {
         return speed;
     }
 
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
     public int getDistance() {
         return distance;
     }
 
+    public void setDistance(int distance) {
+        this.distance = distance;
+    }
+
     public Trip getTrip() {
         return trip;
+    }
+
+    public void setTrip(Trip trip) {
+        this.trip = trip;
     }
 }

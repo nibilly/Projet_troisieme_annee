@@ -88,6 +88,7 @@ public class TripDAO {
         if(cursor.moveToFirst()) {
             while (!cursor.isAfterLast()) {
                 Trip trip = cursorToTrip(cursor);
+                trip.getRecords(context);
                 trips.add(trip);
                 cursor.moveToNext();
             }

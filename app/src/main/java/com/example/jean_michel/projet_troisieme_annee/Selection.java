@@ -4,11 +4,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.example.jean_michel.projet_troisieme_annee.DAO.RecordDAO;
+import com.example.jean_michel.projet_troisieme_annee.donnee.Record;
+import com.example.jean_michel.projet_troisieme_annee.donnee.RoadType;
+import com.example.jean_michel.projet_troisieme_annee.donnee.Trip;
+import com.example.jean_michel.projet_troisieme_annee.donnee.User;
+import com.example.jean_michel.projet_troisieme_annee.donnee.Weather;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Selection extends AppCompatActivity {
+
+    private Weather weather;
+    private RoadType roadType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +31,23 @@ public class Selection extends AppCompatActivity {
     }
 
     public void save(View view){
-        Intent intent = new Intent(this, Home.class);
-        startActivity(intent);
+        if(weather == null || roadType == null){
+            Toast toast = Toast.makeText(this, "Please select first", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        else {
+            Trip trip = Capture.trip;
+            trip.setWeather(weather);
+            trip.setRoadType(roadType);
+            trip = User.connectedUser.addTrip(trip, this);
+            List<Record> records = Capture.records;
+            for (Record record: records) {
+                record.setTrip(trip);
+                trip.addRecord(record, this);
+            }
+            Intent intent = new Intent(this, Home.class);
+            startActivity(intent);
+        }
     }
 
     public void test(View view) {
@@ -39,6 +68,7 @@ public class Selection extends AppCompatActivity {
         roadType4.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionVide));
         roadType5.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionVide));
         roadType1.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionPleine));
+        this.roadType = RoadType.HIGHWAY;
     }
 
 
@@ -55,6 +85,7 @@ public class Selection extends AppCompatActivity {
         roadType4.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionVide));
         roadType5.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionVide));
         roadType2.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionPleine));
+        this.roadType = RoadType.DEPARTMENT;
     }
 
 
@@ -71,6 +102,7 @@ public class Selection extends AppCompatActivity {
         roadType4.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionVide));
         roadType5.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionVide));
         roadType3.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionPleine));
+        this.roadType = RoadType.NATIONAL;
     }
 
 
@@ -87,6 +119,7 @@ public class Selection extends AppCompatActivity {
         roadType4.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionVide));
         roadType5.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionVide));
         roadType4.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionPleine));
+        this.roadType = RoadType.DIRT;
     }
 
 
@@ -103,6 +136,7 @@ public class Selection extends AppCompatActivity {
         roadType4.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionVide));
         roadType5.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionVide));
         roadType5.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionPleine));
+        this.roadType = RoadType.CITY;
     }
 
 
@@ -117,7 +151,7 @@ public class Selection extends AppCompatActivity {
         weather3.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionVide));
         weather4.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionVide));
         weather1.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionPleine));
-
+        this.weather = Weather.SUN;
     }
 
     public void weather2(View view) {
@@ -131,7 +165,7 @@ public class Selection extends AppCompatActivity {
         weather3.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionVide));
         weather4.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionVide));
         weather2.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionPleine));
-
+        this.weather = Weather.SNOW;
     }
 
     public void weather3(View view) {
@@ -145,7 +179,7 @@ public class Selection extends AppCompatActivity {
         weather3.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionVide));
         weather4.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionVide));
         weather3.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionPleine));
-
+        this.weather = Weather.RAIN;
     }
 
     public void weather4(View view) {
@@ -159,6 +193,6 @@ public class Selection extends AppCompatActivity {
         weather3.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionVide));
         weather4.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionVide));
         weather4.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.selectionPleine));
-
+        this.weather = Weather.CLOUD;
     }
 }

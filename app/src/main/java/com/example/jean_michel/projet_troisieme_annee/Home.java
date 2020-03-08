@@ -17,6 +17,7 @@ import com.example.jean_michel.projet_troisieme_annee.donnee.Trip;
 import com.example.jean_michel.projet_troisieme_annee.donnee.User;
 import com.example.jean_michel.projet_troisieme_annee.donnee.Weather;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +28,17 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        Date d = new Date();
+
+        // Test
+        UserDAO userDAO = new UserDAO(this);
+        userDAO.open();
+        List<User> users = userDAO.findAll();
+        userDAO.close();
+        User.connectedUser = users.get(0);
+        List<Trip> trips = User.connectedUser.getTrips(this);
+        List<Record> records = trips.get(0).getRecords(this);
+
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -35,6 +47,15 @@ public class Home extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
+
+        /*UserDAO userDAO = new UserDAO(this);
+        userDAO.open();
+        List<User> users = userDAO.findAll();
+        userDAO.close();
+        User user = users.get(0);
+        List<Trip> trips = user.getTrips(this);
+        Trip trip = trips.get(0);
+        List<Record> records = trip.getRecords(this);*/
     }
 
     public void createProfil(View view) {

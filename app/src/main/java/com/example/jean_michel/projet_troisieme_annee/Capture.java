@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +18,13 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.jean_michel.projet_troisieme_annee.donnee.Record;
+import com.example.jean_michel.projet_troisieme_annee.donnee.Trip;
+import com.example.jean_michel.projet_troisieme_annee.donnee.User;
+
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 public class Capture extends AppCompatActivity {
@@ -42,6 +49,10 @@ public class Capture extends AppCompatActivity {
     private Button buttonStop;
     private ProgressBar progressBarConnexion;
 
+    public static Trip trip;
+    public static List<Record> records;
+    private Record record;
+
     @SuppressLint("HandlerLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +62,9 @@ public class Capture extends AppCompatActivity {
         if(deviceAddress == null) {
             obd2Selection();
         }
+
+        trip = new Trip(new Date(), User.connectedUser);
+        records = new ArrayList<>();
 
         // MessageQueue on the handler to wait vehicule information
         textViewEngineRPM = (TextView)findViewById(R.id.textViewEngineRPM);
@@ -64,12 +78,17 @@ public class Capture extends AppCompatActivity {
             public void handleMessage(Message message){
                 String engineValue = message.getData().getString(ENGINE_VALUE_CHANGED);
                 if(engineValue != null) {
-                    textViewEngineRPM.setText(engineValue);
+                    textViewEngineRPM.setText(engineValue+" RPM");
+                    record = new Record(new Date(), Integer.parseInt(engineValue), trip);
                 }
                 else{
                     String speedValue = message.getData().getString(SPEED_VALUE_CHANGED);
                     if(speedValue != null) {
-                        textViewSpeed.setText(speedValue);
+                        textViewSpeed.setText(speedValue+" km/h");
+                        int speedInt = Integer.parseInt(speedValue);
+                        record.setSpeed(speedInt);
+                        record.setDistance(speedInt/3600);
+                        records.add(record);
                     }
                     else{
                         if(message.getData().getBoolean(SOCKET_CONNECTED, false)){
@@ -80,19 +99,15 @@ public class Capture extends AppCompatActivity {
                 }
             }
         };
-
-        // Start recuperation of vehicule data
-        thread = new Thread( new CaptureVehiculeData(handler));
-        // CAUTION Change delete // and delete second and third next lines if you want to try with a vehicle
-        // thread.start();
-        buttonStop.setEnabled(true);
-        progressBarConnexion.setVisibility(View.GONE);
+        // buttonStop.setEnabled(true);
+        // progressBarConnexion.setVisibility(View.GONE);
     }
 
     public void stop(View view){
         // Stop thread of recuperation
         thread.interrupt();
 
+        trip.setFinishedDate(new Date());
         Intent intent = new Intent(this, Selection.class);
         startActivity(intent);
     }
@@ -127,6 +142,9 @@ public class Capture extends AppCompatActivity {
                 dialog.dismiss();
                 int position = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
                 deviceAddress = devices.get(position);
+                // Start recuperation of vehicule data
+                thread = new Thread( new CaptureVehiculeData(handler));
+                thread.start();
             }
         });
 
