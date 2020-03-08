@@ -101,7 +101,29 @@ public class Trip {
 
     @Override
     public String toString(){
-        return DATE_FORMAT.format(this.startedDate);
+        String str = "";
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        str += format.format(this.startedDate) + " ";
+        long ll = finishedDate.getTime() - startedDate.getTime();
+        int l = (int) ll;
+        str += l/3600000;
+        str += "h";
+        l = l%3600000;
+        str += l/60000;
+        str += "m";
+        l = l%60000;
+        str += l/1000;
+        str += "s  avgSpeed:";
+        int avgSpeed = 0;
+        int avgRPM = 0;
+        for(Record record : records){
+            avgSpeed += record.getSpeed();
+            avgRPM += record.getEngineRPM();
+        }
+        avgSpeed /= records.size();
+        avgRPM /= records.size();
+        str += avgSpeed + "km/h avgEngineRPM:" + avgRPM + "RPM";
+        return str;
     }
 
     public User getUser() {

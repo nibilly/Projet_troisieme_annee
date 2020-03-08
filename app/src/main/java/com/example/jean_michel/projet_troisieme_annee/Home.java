@@ -38,8 +38,6 @@ public class Home extends AppCompatActivity {
         User.connectedUser = users.get(0);
         List<Trip> trips = User.connectedUser.getTrips(this);
 
-
-
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
 
         ArrayAdapter adapter1 = new ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item, users);

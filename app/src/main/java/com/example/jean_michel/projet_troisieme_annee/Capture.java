@@ -62,6 +62,9 @@ public class Capture extends AppCompatActivity {
         if(deviceAddress == null) {
             obd2Selection();
         }
+        else {
+            startRecup();
+        }
 
         trip = new Trip(new Date(), User.connectedUser);
         records = new ArrayList<>();
@@ -142,13 +145,16 @@ public class Capture extends AppCompatActivity {
                 dialog.dismiss();
                 int position = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
                 deviceAddress = devices.get(position);
-                // Start recuperation of vehicule data
-                thread = new Thread( new CaptureVehicleData(handler));
-                thread.start();
+                startRecup();
             }
         });
 
         alertDialog.setTitle("Choose OBDII device already paired");
         alertDialog.show();
+    }
+
+    private void startRecup(){
+        thread = new Thread( new CaptureVehicleData(handler));
+        thread.start();
     }
 }
