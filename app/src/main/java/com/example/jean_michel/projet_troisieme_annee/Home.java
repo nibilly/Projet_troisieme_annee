@@ -1,19 +1,18 @@
 package com.example.jean_michel.projet_troisieme_annee;
 
-import android.app.AlertDialog;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.jean_michel.projet_troisieme_annee.donnee.User;
+
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.List;
 
 public class Home extends AppCompatActivity {
 
@@ -23,13 +22,19 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.users, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+
+        List<User> listUser = new ArrayList<>();
+
+        User user = new User(1, "Billy", "Nicolas");
+        listUser.add(user);
+        User user2 = new User(2, "SALETTE", "Cédric");
+        listUser.add(user2);
+        User user3 = new User(3, "Prevost", "Amandine");
+        listUser.add(user3);
+
+        ArrayAdapter<User> adapter1 = new ArrayAdapter<User>(getApplicationContext(),android.R.layout.simple_spinner_dropdown_item, listUser);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter1);
     }
 
     public void createProfil(View view) {
@@ -37,9 +42,16 @@ public class Home extends AppCompatActivity {
         startActivity(intent);
     }
 
-
     public void startTrip(View view) {
+        Log.i("cedric", "here");
         Intent intent = new Intent(this, Capture.class);
+        Log.i("cedric", "here2");
+        startActivity(intent);
+        Log.i("cedric", "here3");
+    }
+
+    public void history(View view) {
+        Intent intent = new Intent(this, history.class);
         startActivity(intent);
     }
 }

@@ -26,6 +26,13 @@ public class User {
         return id;
     }
 
+
+    @Override
+    public String toString(){
+        String fullName = firstName + " " + lastName;
+        return fullName;
+    }
+
     public void setId(int id) {
         this.id = id;
     }

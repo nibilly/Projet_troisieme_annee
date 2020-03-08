@@ -41,6 +41,8 @@ public class Trip {
         return startedDate;
     }
 
+    public void setStartedDate(Date startedDate) {this.startedDate = startedDate;}
+
     public Date getFinishedDate() {
         return finishedDate;
     }
