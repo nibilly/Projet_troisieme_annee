@@ -9,7 +9,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.example.jean_michel.projet_troisieme_annee.DAO.RecordDAO;
 import com.github.pires.obd.commands.SpeedCommand;
+import com.github.pires.obd.commands.control.DistanceMILOnCommand;
 import com.github.pires.obd.commands.control.DistanceSinceCCCommand;
 import com.github.pires.obd.commands.engine.RPMCommand;
 import com.github.pires.obd.commands.protocol.EchoOffCommand;
@@ -57,25 +59,28 @@ public class CaptureVehicleData implements Runnable {
 
             RPMCommand engineRpmCommand = new RPMCommand();
             SpeedCommand speedCommand = new SpeedCommand();
-            // DistanceSinceCCCommand
+            // DistanceMILOnCommand distanceCommand = new DistanceMILOnCommand();
             while (!Thread.currentThread().isInterrupted())
             {
+                // distanceCommand.run(socket.getInputStream(), socket.getOutputStream());
                 engineRpmCommand.run(socket.getInputStream(), socket.getOutputStream());
                 speedCommand.run(socket.getInputStream(), socket.getOutputStream());
                 String engineRpm = engineRpmCommand.getFormattedResult();
+                int engineInt = engineRpmCommand.getRPM();
                 String speed = speedCommand.getFormattedResult();
+                int speedInt = speedCommand.getMetricSpeed();
 
                 Log.d("CaptureVehicleData", "RPM: " + engineRpm);
                 message = handler.obtainMessage();
                 messageBundle = new Bundle();
-                messageBundle.putString(Capture.ENGINE_VALUE_CHANGED, engineRpm);
+                messageBundle.putString(Capture.ENGINE_VALUE_CHANGED, ""+engineInt);
                 message.setData(messageBundle);
                 handler.sendMessage(message);
 
                 Log.d("CaptureVehicleData", "Speed: " + speed);
                 message = handler.obtainMessage();
                  messageBundle = new Bundle();
-                messageBundle.putString(Capture.SPEED_VALUE_CHANGED, speed);
+                messageBundle.putString(Capture.SPEED_VALUE_CHANGED, ""+speedInt);
                 message.setData(messageBundle);
                 handler.sendMessage(message);
 

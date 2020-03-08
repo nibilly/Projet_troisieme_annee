@@ -1,8 +1,11 @@
 package com.example.jean_michel.projet_troisieme_annee;
 
+import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -21,11 +24,22 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        Date d = new Date();
+
+        // Test
+        UserDAO userDAO = new UserDAO(this);
+        userDAO.open();
+        List<User> users = userDAO.findAll();
+        userDAO.close();
+        User.connectedUser = users.get(0);
+        List<Trip> trips = User.connectedUser.getTrips(this);
+        List<Record> records = trips.get(0).getRecords(this);
+
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
 
         List<User> listUser = new ArrayList<>();
 
-        User user = new User(1, "Billy", "Nicolas");
+        User user = new User(1, "Billly", "Nicolas");
         listUser.add(user);
         User user2 = new User(2, "SALETTE", "Cédric");
         listUser.add(user2);
@@ -42,16 +56,9 @@ public class Home extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void startTrip(View view) {
-        Log.i("cedric", "here");
-        Intent intent = new Intent(this, Capture.class);
-        Log.i("cedric", "here2");
-        startActivity(intent);
-        Log.i("cedric", "here3");
-    }
 
-    public void history(View view) {
-        Intent intent = new Intent(this, history.class);
+    public void startTrip(View view) {
+        Intent intent = new Intent(this, Capture.class);
         startActivity(intent);
     }
 }

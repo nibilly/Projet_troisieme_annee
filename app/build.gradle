@@ -33,4 +33,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     // https://mvnrepository.com/artifact/com.github.pires/obd-java-api
     implementation 'com.github.pires:obd-java-api:1.0-RC16'
+    // Java language implementation
+    implementation "androidx.sqlite:sqlite:2.1.0"
 }
