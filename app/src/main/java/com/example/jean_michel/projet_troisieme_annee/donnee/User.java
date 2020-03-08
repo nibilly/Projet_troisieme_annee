@@ -16,6 +16,8 @@ public class User {
 
     public static User connectedUser;
 
+    //commit
+
     // BDD Recuperation
     public User(int id, String lastName, String firstName) {
         this.id = id;
@@ -33,6 +35,13 @@ public class User {
 
     public int getId() {
         return id;
+    }
+
+
+    @Override
+    public String toString(){
+        String fullName = firstName + " " + lastName;
+        return fullName;
     }
 
     public void setId(int id) {

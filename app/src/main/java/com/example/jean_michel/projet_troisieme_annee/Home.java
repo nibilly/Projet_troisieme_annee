@@ -8,17 +8,10 @@ import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.jean_michel.projet_troisieme_annee.DAO.RecordDAO;
-import com.example.jean_michel.projet_troisieme_annee.DAO.TripDAO;
 import com.example.jean_michel.projet_troisieme_annee.DAO.UserDAO;
-import com.example.jean_michel.projet_troisieme_annee.donnee.Record;
-import com.example.jean_michel.projet_troisieme_annee.donnee.RoadType;
 import com.example.jean_michel.projet_troisieme_annee.donnee.Trip;
 import com.example.jean_michel.projet_troisieme_annee.donnee.User;
-import com.example.jean_michel.projet_troisieme_annee.donnee.Weather;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Home extends AppCompatActivity {
@@ -27,35 +20,30 @@ public class Home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+    }
 
-        Date d = new Date();
-
-        // Test
+    @Override
+    public void onResume(){
+        super.onResume();
         UserDAO userDAO = new UserDAO(this);
         userDAO.open();
+        /*User user = new User(1, "Billy", "Nicolas");
+        userDAO.createUser(user);
+        User user2 = new User(2, "SALETTE", "Cédric");
+        userDAO.createUser(user2);
+        User user3 = new User(3, "Prevost", "Amandine");
+        userDAO.createUser(user3);*/
         List<User> users = userDAO.findAll();
         userDAO.close();
         User.connectedUser = users.get(0);
         List<Trip> trips = User.connectedUser.getTrips(this);
-        List<Record> records = trips.get(0).getRecords(this);
+
+
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.users, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
 
-        /*UserDAO userDAO = new UserDAO(this);
-        userDAO.open();
-        List<User> users = userDAO.findAll();
-        userDAO.close();
-        User user = users.get(0);
-        List<Trip> trips = user.getTrips(this);
-        Trip trip = trips.get(0);
-        List<Record> records = trip.getRecords(this);*/
+        ArrayAdapter adapter1 = new ArrayAdapter(this,android.R.layout.simple_spinner_dropdown_item, users);
+        spinner.setAdapter(adapter1);
     }
 
     public void createProfil(View view) {
@@ -66,6 +54,11 @@ public class Home extends AppCompatActivity {
 
     public void startTrip(View view) {
         Intent intent = new Intent(this, Capture.class);
+        startActivity(intent);
+    }
+
+    public void history(View view){
+        Intent intent = new Intent(this, History.class);
         startActivity(intent);
     }
 }

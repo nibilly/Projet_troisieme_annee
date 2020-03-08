@@ -54,6 +54,8 @@ public class Trip {
         return startedDate;
     }
 
+    public void setStartedDate(Date startedDate) {this.startedDate = startedDate;}
+
     public Date getFinishedDate() {
         return finishedDate;
     }
@@ -95,6 +97,11 @@ public class Trip {
         recordDAO.close();
         this.records.add(record1);
         return record1;
+    }
+
+    @Override
+    public String toString(){
+        return DATE_FORMAT.format(this.startedDate);
     }
 
     public User getUser() {

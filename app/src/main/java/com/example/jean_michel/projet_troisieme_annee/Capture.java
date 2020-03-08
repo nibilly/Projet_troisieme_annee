@@ -62,6 +62,7 @@ public class Capture extends AppCompatActivity {
         if(deviceAddress == null) {
             obd2Selection();
         }
+
         trip = new Trip(new Date(), User.connectedUser);
         records = new ArrayList<>();
 
